@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap'
 import { useGame } from '../context/WordleContext'
-import { WORD_LENGTH, TURNS } from '../config/config'
+import { WORD_LENGTH } from '../config/config'
 
 const Keyboard = () => {
   const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split("")
@@ -14,7 +14,7 @@ const Keyboard = () => {
             variant='primary'
             key={index + char}
             size='lg'
-            disabled={ isDisabled }
+            disabled={ !!isDisabled }
             onClick={() => addLetterToCurrentAttempt(char)}
             className="me-2 mb-2">
             {char}

@@ -3,14 +3,14 @@ import { TURNS, WORD_LENGTH } from '../config/config'
 import words from '../data/words.json';
 
 type GameContextProps = {
-  isCorrect: boolean
-  wordSolution: string
+  isCorrect: boolean | null
+  wordSolution: string[]
   currentTurn: number
   currentAttempt: string[]
   attempts: string[][]
   addLetterToCurrentAttempt: (char: string) => void
   submitCurrentAttempt: () => void
-  displayLetter:(attemptIndex: number, charIndex: number) => string
+  displayLetter: (attemptIndex: number, charIndex: number) => string
 }
 
 type GameProviderProps = {
@@ -24,13 +24,13 @@ export function useGame() {
 
 export function GameProvider({ children }: GameProviderProps) {
   const [currentTurn, setCurrentTurn] = useState<number>(0)
-  const [isCorrect, setIsCorrect] = useState<boolean>(false)
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
   const [attempts, setAttempts] = useState([...Array(TURNS)])
   const [currentAttempt, setCurrentAttempt] = useState<string[]>([])
 
   const wordSolution = useMemo(() => {
     const randomIndex = Math.floor(Math.random() * words.length)
-    return words[randomIndex].toUpperCase()
+    return words[randomIndex].toUpperCase().split("")
   }, [])
 
   function addLetterToCurrentAttempt(char: string) {

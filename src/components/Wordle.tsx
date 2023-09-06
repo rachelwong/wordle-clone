@@ -4,10 +4,11 @@ import Keyboard from './Keyboard'
 import Grid from './Grid'
 
 const Wordle = () => {
-  const { currentAttempt, attempts, currentTurn } = useGame()
+  const { currentAttempt, attempts, currentTurn, wordSolution } = useGame()
 
   return (
     <div>
+      <h1>Solution {wordSolution }</h1>
       <h1>CurrentAttempt{JSON.stringify(currentAttempt)}</h1>
       <h2>Attempts: {JSON.stringify(attempts)}</h2>
       <h3>CurrentTurn: {currentTurn}</h3>

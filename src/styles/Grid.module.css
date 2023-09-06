@@ -1,5 +1,5 @@
 .letter {
-  border: 3px solid grey;
+  border: 3px solid gray;
   font-size: 3rem;
   display: flex;
   justify-content: center;
@@ -7,6 +7,19 @@
   width: 4rem;
   height: 5rem;
   margin: 0 .5rem;
+  background: transparent;
+}
+
+.letter.notpresent {
+  background: lightgray;
+}
+
+.letter.incorrectposition{
+  background: yellow;
+}
+
+.letter.correctposition {
+  background: lightgreen;
 }
 
 .wrapper {

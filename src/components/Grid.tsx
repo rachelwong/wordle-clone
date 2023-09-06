@@ -3,8 +3,19 @@ import { WORD_LENGTH } from '../config/config'
 import styles from '../styles/Grid.module.css'
 
 const Grid = () => {
-  const { currentAttempt, attempts, currentTurn, displayLetter } = useGame()
+  const { attempts, displayLetter, wordSolution } = useGame()
   const letters = Array(WORD_LENGTH).fill('')
+
+  function checkLetterStatus(attemptIndex: number, charIndex: number) {
+    if (attempts[attemptIndex][charIndex] === wordSolution[charIndex]) {
+      return styles.correctposition
+    }
+    else if (wordSolution.includes(attempts[attemptIndex][charIndex])) {
+      return styles.incorrectposition
+    } else {
+      return styles.notpresent
+    }
+  }
 
   return (
     <>
@@ -12,7 +23,9 @@ const Grid = () => {
         <div key={attemptIndex} className={styles.wrapper}>
           {
             letters.map((char, charIndex) => (
-              <div key={charIndex} className={styles.letter}>
+              <div
+                key={charIndex}
+                className={`${styles.letter} ${attempts[attemptIndex] !== undefined && checkLetterStatus(attemptIndex, charIndex)}`}>
                 <span>
                   { displayLetter(attemptIndex, charIndex) }
                 </span>
