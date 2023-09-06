@@ -7,8 +7,10 @@ type GameContextProps = {
   wordSolution: string
   currentTurn: number
   currentAttempt: string[]
-  attempts: ReactNode[]
+  attempts: string[][]
   addLetterToCurrentAttempt: (char: string) => void
+  submitCurrentAttempt: () => void
+  displayLetter:(attemptIndex: number, charIndex: number) => string
 }
 
 type GameProviderProps = {
@@ -33,11 +35,24 @@ export function GameProvider({ children }: GameProviderProps) {
 
   function addLetterToCurrentAttempt(char: string) {
     if (currentAttempt.length <= WORD_LENGTH) setCurrentAttempt(prev => { return [...prev, char] })
-    console.log('add', currentAttempt)
+  }
+
+  function submitCurrentAttempt() {
+    if (currentTurn < 6) {
+      const tempAttempts = [...attempts]
+      tempAttempts.splice(currentTurn, 1, currentAttempt)
+      setAttempts([...tempAttempts])
+      setCurrentTurn(prev => prev + 1)
+      setCurrentAttempt([])
+    }
+  }
+
+  function displayLetter(attemptIndex:number, charIndex:number) {
+    return attempts[attemptIndex] !== undefined ? attempts[attemptIndex][charIndex] : (currentTurn === attemptIndex && currentAttempt[charIndex] !== undefined) ? currentAttempt[charIndex] : ''
   }
 
   return <GameContext.Provider
-    value={{ addLetterToCurrentAttempt, isCorrect, wordSolution, currentTurn, attempts, currentAttempt }}>
+    value={{ addLetterToCurrentAttempt, isCorrect, wordSolution, currentTurn, attempts, currentAttempt, submitCurrentAttempt, displayLetter }}>
     {children}
   </GameContext.Provider>
 }
