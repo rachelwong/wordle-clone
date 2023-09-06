@@ -39,7 +39,7 @@ export function GameProvider({ children }: GameProviderProps) {
   }
 
   function submitCurrentAttempt() {
-    if (currentTurn < 6) {
+    if (currentTurn < TURNS) {
       const tempAttempts = [...attempts]
       tempAttempts.splice(currentTurn, 1, currentAttempt)
       setAttempts([...tempAttempts])
