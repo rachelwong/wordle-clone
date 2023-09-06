@@ -19,10 +19,10 @@ const Grid = () => {
 
   return (
     <>
-      { attempts.map((attempt, attemptIndex) => (
+      { attempts.map((_, attemptIndex) => (
         <div key={attemptIndex} className={styles.wrapper}>
           {
-            letters.map((char, charIndex) => (
+            letters.map((__, charIndex) => (
               <div
                 key={charIndex}
                 className={`${styles.letter} ${attempts[attemptIndex] !== undefined && checkLetterStatus(attemptIndex, charIndex)}`}>

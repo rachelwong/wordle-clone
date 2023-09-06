@@ -3,7 +3,7 @@ import { TURNS, WORD_LENGTH } from '../config/config'
 import words from '../data/words.json';
 
 type GameContextProps = {
-  isCorrect: boolean | null
+  isCorrect: boolean
   wordSolution: string[]
   currentTurn: number
   currentAttempt: string[]
@@ -11,6 +11,7 @@ type GameContextProps = {
   addLetterToCurrentAttempt: (char: string) => void
   submitCurrentAttempt: () => void
   displayLetter: (attemptIndex: number, charIndex: number) => string
+  restart: () => void
 }
 
 type GameProviderProps = {
@@ -24,7 +25,7 @@ export function useGame() {
 
 export function GameProvider({ children }: GameProviderProps) {
   const [currentTurn, setCurrentTurn] = useState<number>(0)
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
+  const [isCorrect, setIsCorrect] = useState<boolean>(false)
   const [attempts, setAttempts] = useState([...Array(TURNS)])
   const [currentAttempt, setCurrentAttempt] = useState<string[]>([])
 
@@ -45,6 +46,16 @@ export function GameProvider({ children }: GameProviderProps) {
       setCurrentTurn(prev => prev + 1)
       setCurrentAttempt([])
     }
+    if (currentAttempt.join("") === wordSolution.join("")) {
+      setIsCorrect(true)
+    }
+  }
+
+  function restart() {
+    setIsCorrect(false)
+    setCurrentAttempt([])
+    setCurrentTurn(0)
+    setAttempts([])
   }
 
   function displayLetter(attemptIndex:number, charIndex:number) {
@@ -52,7 +63,7 @@ export function GameProvider({ children }: GameProviderProps) {
   }
 
   return <GameContext.Provider
-    value={{ addLetterToCurrentAttempt, isCorrect, wordSolution, currentTurn, attempts, currentAttempt, submitCurrentAttempt, displayLetter }}>
+    value={{ addLetterToCurrentAttempt, isCorrect, wordSolution, restart, currentTurn, attempts, currentAttempt, submitCurrentAttempt, displayLetter }}>
     {children}
   </GameContext.Provider>
 }
